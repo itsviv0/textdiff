@@ -3,6 +3,7 @@
 import { Controls } from "@/components/Controls";
 import { DiffViewer } from "@/components/DiffViewer";
 import { FileUpload } from "@/components/FileUpload";
+import Footer from "@/components/Footer";
 import { TextInput } from "@/components/TextInput";
 import { Download, Eye } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -168,6 +169,7 @@ export default function Home() {
                     </div>
                 )}
             </div>
+            <Footer />
         </div>
     );
 }
