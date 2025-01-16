@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { Upload } from "lucide-react";
 
@@ -13,6 +11,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     side,
 }) => {
     const [isDragging, setIsDragging] = React.useState(false);
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
 
     const handleDrag = (e: React.DragEvent) => {
         e.preventDefault();
@@ -43,6 +42,10 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             const file = files[0];
             const text = await file.text();
             onFileSelect(text, side);
+            // Reset the input value to allow the same file to be selected again
+            if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
         }
     };
 
@@ -63,6 +66,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                     Browse Files
                 </span>
                 <input
+                    ref={fileInputRef}
                     type="file"
                     className="hidden"
                     onChange={handleFileInput}

@@ -1,46 +1,48 @@
-"use client";
-
-import React from "react";
-import {
-    ChevronDown,
-    ChevronUp,
-    Download,
-    SplitSquareVertical,
-    AlignJustify,
-} from "lucide-react";
-import { DiffLine, DiffResult } from "../types/diff";
+import React, { useMemo } from "react";
 import { computeDiff } from "../utils/diffUtils";
 
 interface DiffViewerProps {
     leftText: string;
     rightText: string;
     viewMode: "split" | "unified";
-    onViewModeChange: (mode: "split" | "unified") => void;
-    onDownload: () => void;
+    darkMode: boolean;
 }
 
 export const DiffViewer: React.FC<DiffViewerProps> = ({
     leftText,
     rightText,
     viewMode,
-    onViewModeChange,
-    onDownload,
+    darkMode,
 }) => {
-    const diffResult = React.useMemo(
+    const diffResult = useMemo(
         () => computeDiff(leftText, rightText),
         [leftText, rightText]
     );
 
-    const renderDiffLine = (line: DiffLine, index: number) => {
-        const baseClasses = "px-4 py-1 font-mono text-sm whitespace-pre";
-        const lineNumberClasses =
-            "select-none text-gray-500 pr-4 border-r border-gray-300 w-12 inline-block text-right";
+    const getDiffCount = () => {
+        const removedCount = diffResult.leftLines.filter(
+            (line) => line.type === "removed"
+        ).length;
+        const addedCount = diffResult.rightLines.filter(
+            (line) => line.type === "added"
+        ).length;
+        return { removedCount, addedCount };
+    };
 
-        let lineClasses = baseClasses;
+    const { removedCount, addedCount } = getDiffCount();
+
+    const renderDiffLine = (line: any, index: number) => {
+        const baseClasses = "px-4 py-1 font-mono text-sm whitespace-nowrap";
+        const lineNumberClasses =
+            "select-none text-gray-500 pr-4 border-r border-gray-300 w-12 inline-block text-right dark:text-gray-400";
+
+        let lineClasses = `${baseClasses} ${darkMode ? "dark:text-gray-200" : ""}`;
         if (line.type === "added") {
-            lineClasses += " bg-green-100 text-green-800";
+            lineClasses +=
+                " bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
         } else if (line.type === "removed") {
-            lineClasses += " bg-red-100 text-red-800";
+            lineClasses +=
+                " bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
         }
 
         return (
@@ -51,23 +53,36 @@ export const DiffViewer: React.FC<DiffViewerProps> = ({
         );
     };
 
+    const renderDiffStats = (count: number, type: "removed" | "added") => {
+        const color = type === "removed" ? "text-red-600" : "text-green-600";
+        const sign = type === "removed" ? "-" : "+";
+        return count > 0 ? (
+            <span className={`${color} ml-2 text-sm`}>
+                {sign}
+                {count} {count === 1 ? "line" : "lines"}
+            </span>
+        ) : null;
+    };
+
     const renderSplitView = () => (
         <div className="grid grid-cols-2 gap-4">
-            <div className="border rounded">
-                <div className="bg-gray-100 p-2 font-semibold border-b">
+            <div className="border rounded dark:border-gray-700">
+                <div className="bg-gray-100 p-2 font-semibold border-b dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200">
                     Original Text
+                    {renderDiffStats(removedCount, "removed")}
                 </div>
-                <div>
+                <div className="overflow-x-auto max-h-[600px]">
                     {diffResult.leftLines.map((line, index) =>
                         renderDiffLine(line, index)
                     )}
                 </div>
             </div>
-            <div className="border rounded">
-                <div className="bg-gray-100 p-2 font-semibold border-b">
+            <div className="border rounded dark:border-gray-700">
+                <div className="bg-gray-100 p-2 font-semibold border-b dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200">
                     Modified Text
+                    {renderDiffStats(addedCount, "added")}
                 </div>
-                <div>
+                <div className="overflow-x-auto max-h-[600px]">
                     {diffResult.rightLines.map((line, index) =>
                         renderDiffLine(line, index)
                     )}
@@ -77,11 +92,13 @@ export const DiffViewer: React.FC<DiffViewerProps> = ({
     );
 
     const renderUnifiedView = () => (
-        <div className="border rounded">
-            <div className="bg-gray-100 p-2 font-semibold border-b">
+        <div className="border rounded dark:border-gray-700">
+            <div className="bg-gray-100 p-2 font-semibold border-b dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200">
                 Unified View
+                {renderDiffStats(removedCount, "removed")}
+                {renderDiffStats(addedCount, "added")}
             </div>
-            <div>
+            <div className="overflow-x-auto max-h-[600px]">
                 {diffResult.unifiedLines.map((line, index) =>
                     renderDiffLine(line, index)
                 )}
@@ -91,39 +108,6 @@ export const DiffViewer: React.FC<DiffViewerProps> = ({
 
     return (
         <div className="w-full">
-            <div className="flex justify-between items-center mb-4">
-                <div className="space-x-2">
-                    <button
-                        onClick={() => onViewModeChange("split")}
-                        className={`px-3 py-2 rounded ${
-                            viewMode === "split"
-                                ? "bg-blue-500 text-white"
-                                : "bg-gray-200"
-                        }`}
-                    >
-                        <SplitSquareVertical className="w-4 h-4 inline-block mr-2" />
-                        Split View
-                    </button>
-                    <button
-                        onClick={() => onViewModeChange("unified")}
-                        className={`px-3 py-2 rounded ${
-                            viewMode === "unified"
-                                ? "bg-blue-500 text-white"
-                                : "bg-gray-200"
-                        }`}
-                    >
-                        <AlignJustify className="w-4 h-4 inline-block mr-2" />
-                        Unified View
-                    </button>
-                </div>
-                <button
-                    onClick={onDownload}
-                    className="px-3 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                >
-                    <Download className="w-4 h-4 inline-block mr-2" />
-                    Download Diff
-                </button>
-            </div>
             {viewMode === "split" ? renderSplitView() : renderUnifiedView()}
         </div>
     );
