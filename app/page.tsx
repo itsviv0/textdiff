@@ -23,6 +23,13 @@ export default function Home() {
     }, [leftText, rightText, realTime]);
 
     useEffect(() => {
+        const userPrefersDark =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+        setDarkMode(userPrefersDark);
+    }, []);
+
+    useEffect(() => {
         if (darkMode) {
             document.documentElement.classList.add("dark");
         } else {
