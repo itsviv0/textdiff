@@ -68,6 +68,7 @@ export default function Home() {
                         src="/textdiff-logo.svg"
                         alt="TextDiff Logo"
                         className="w-40 mx-auto mb-4"
+                        style={{ filter: darkMode ? "invert(1)" : "none" }}
                     />
                 </h1>
 
