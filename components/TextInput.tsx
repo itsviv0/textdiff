@@ -34,18 +34,18 @@ export const TextInput: React.FC<TextInputProps> = ({
     return (
         <div className="flex flex-col h-full">
             <div className="flex justify-between items-center mb-2">
-                <h3 className="font-medium">{label}</h3>
+                <h3 className="font-medium dark:text-gray-200">{label}</h3>
                 <div className="space-x-2">
                     <button
                         onClick={handleCopy}
-                        className="p-1 hover:bg-gray-200 rounded dark:hover:bg-gray-700"
+                        className="p-1 hover:bg-gray-200 rounded dark:hover:bg-gray-700 dark:text-gray-200"
                         title="Copy"
                     >
                         <Copy className="w-4 h-4" />
                     </button>
                     <button
                         onClick={onClear}
-                        className="p-1 hover:bg-gray-200 rounded dark:hover:bg-gray-700"
+                        className="p-1 hover:bg-gray-200 rounded dark:hover:bg-gray-700 dark:text-gray-200"
                         title="Clear"
                     >
                         <Trash2 className="w-4 h-4" />
