@@ -142,7 +142,7 @@ export default function Home() {
 
                 {(leftText || rightText) && (
                     <div>
-                        <div className="flex justify-end mb-4 space-x-4">
+                        <div className="flex justify-end mb-8 space-x-4">
                             <button
                                 onClick={updateDiff}
                                 className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
