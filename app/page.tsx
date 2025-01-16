@@ -63,8 +63,12 @@ export default function Home() {
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors">
             <div className="max-w-7xl mx-auto px-4">
-                <h1 className="text-3xl font-bold text-center mb-8 dark:text-white">
-                    Text Diff Checker
+                <h1 className="text-3xl font-bold text-center mb-8 dark:text-black">
+                    <img
+                        src="/textdiff-logo.svg"
+                        alt="TextDiff Logo"
+                        className="w-40 mx-auto mb-4"
+                    />
                 </h1>
 
                 <Controls
