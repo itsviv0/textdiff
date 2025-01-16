@@ -21,9 +21,9 @@ export const TextInput: React.FC<TextInputProps> = ({
     const renderLineNumbers = () => {
         const lines = value.split("\n").length;
         return (
-            <div className="select-none text-gray-500 pr-2 text-right border-r border-gray-300 mr-2">
+            <div className="select-none text-gray-500 pr-2 text-right border-r border-gray-300 mr-2 pt-2">
                 {Array.from({ length: lines }, (_, i) => (
-                    <div key={i + 1} className="leading-6 text-sm">
+                    <div key={i + 1} className="h-6 text-sm">
                         {i + 1}
                     </div>
                 ))}
@@ -58,7 +58,7 @@ export const TextInput: React.FC<TextInputProps> = ({
                     <textarea
                         value={value}
                         onChange={(e) => onChange(e.target.value)}
-                        className="flex-1 p-2 font-mono text-sm resize-none focus:outline-none dark:bg-gray-800 dark:text-gray-200"
+                        className="flex-1 pt-2 pr-2 font-mono text-sm resize-none focus:outline-none dark:bg-gray-800 dark:text-gray-200 leading-6"
                         placeholder="Paste or type your text here..."
                     />
                 </div>
