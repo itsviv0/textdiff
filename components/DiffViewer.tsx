@@ -32,9 +32,10 @@ export const DiffViewer: React.FC<DiffViewerProps> = ({
     const { removedCount, addedCount } = getDiffCount();
 
     const renderDiffLine = (line: any, index: number) => {
-        const baseClasses = "px-4 py-1 font-mono text-sm whitespace-nowrap";
+        const baseClasses =
+            "px-2 sm:px-4 py-1 font-mono text-xs sm:text-sm whitespace-nowrap overflow-x-auto";
         const lineNumberClasses =
-            "select-none text-gray-500 pr-4 border-r border-gray-300 w-12 inline-block text-right dark:text-gray-400";
+            "select-none text-gray-500 pr-2 sm:pr-4 border-r border-gray-300 w-8 sm:w-12 inline-block text-right dark:text-gray-400";
 
         let lineClasses = `${baseClasses} ${darkMode ? "dark:text-gray-200" : ""}`;
         if (line.type === "added") {
@@ -48,7 +49,7 @@ export const DiffViewer: React.FC<DiffViewerProps> = ({
         return (
             <div key={index} className={lineClasses}>
                 <span className={lineNumberClasses}>{line.lineNumber}</span>
-                <span className="pl-4">{line.content}</span>
+                <span className="pl-2 sm:pl-4">{line.content}</span>
             </div>
         );
     };
@@ -57,7 +58,7 @@ export const DiffViewer: React.FC<DiffViewerProps> = ({
         const color = type === "removed" ? "text-red-600" : "text-green-600";
         const sign = type === "removed" ? "-" : "+";
         return count > 0 ? (
-            <span className={`${color} ml-2 text-sm`}>
+            <span className={`${color} ml-2 text-xs sm:text-sm`}>
                 {sign}
                 {count} {count === 1 ? "line" : "lines"}
             </span>
@@ -65,24 +66,24 @@ export const DiffViewer: React.FC<DiffViewerProps> = ({
     };
 
     const renderSplitView = () => (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
             <div className="border rounded dark:border-gray-700">
-                <div className="bg-gray-100 p-2 font-semibold border-b dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200">
+                <div className="bg-gray-100 p-2 font-semibold border-b text-sm sm:text-base dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200">
                     Original Text
                     {renderDiffStats(removedCount, "removed")}
                 </div>
-                <div className="overflow-x-auto max-h-[600px]">
+                <div className="overflow-x-auto max-h-[300px] md:max-h-[600px]">
                     {diffResult.leftLines.map((line, index) =>
                         renderDiffLine(line, index)
                     )}
                 </div>
             </div>
             <div className="border rounded dark:border-gray-700">
-                <div className="bg-gray-100 p-2 font-semibold border-b dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200">
+                <div className="bg-gray-100 p-2 font-semibold border-b text-sm sm:text-base dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200">
                     Modified Text
                     {renderDiffStats(addedCount, "added")}
                 </div>
-                <div className="overflow-x-auto max-h-[600px]">
+                <div className="overflow-x-auto max-h-[300px] md:max-h-[600px]">
                     {diffResult.rightLines.map((line, index) =>
                         renderDiffLine(line, index)
                     )}
@@ -93,12 +94,12 @@ export const DiffViewer: React.FC<DiffViewerProps> = ({
 
     const renderUnifiedView = () => (
         <div className="border rounded dark:border-gray-700">
-            <div className="bg-gray-100 p-2 font-semibold border-b dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200">
+            <div className="bg-gray-100 p-2 font-semibold border-b text-sm sm:text-base dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200">
                 Unified View
                 {renderDiffStats(removedCount, "removed")}
                 {renderDiffStats(addedCount, "added")}
             </div>
-            <div className="overflow-x-auto max-h-[600px]">
+            <div className="overflow-x-auto max-h-[300px] md:max-h-[600px]">
                 {diffResult.unifiedLines.map((line, index) =>
                     renderDiffLine(line, index)
                 )}
