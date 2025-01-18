@@ -69,7 +69,7 @@ export default function Home() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors text-black md:py-8">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 transition-colors text-black md:py-8">
             <div className="max-w-6xl mx-auto px-2 md:px-4 flex-grow">
                 <h1 className="text-2xl md:text-3xl mb-4 md:mb-8">
                     <img
