@@ -2,8 +2,8 @@ import { Github } from "lucide-react";
 
 export default function Footer() {
     return (
-        <footer className="py-6 border-t dark:border-gray-800">
-            <div className="max-w-7xl mx-auto px-4 flex items-center justify-center space-x-2 text-gray-600 dark:text-gray-400">
+        <footer className="mt-6 sm:mt-12 py-4 sm:py-6 border-t dark:border-gray-800">
+            <div className="max-w-7xl mx-auto px-4 flex items-center justify-center space-x-2 sm:space-x-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">
                 <a href="/">
                     <img
                         src="/branding.svg"
