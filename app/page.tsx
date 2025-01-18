@@ -69,9 +69,9 @@ export default function Home() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors text-black">
-            <div className="max-w-7xl mx-auto px-4">
-                <h1 className="text-3xl font-bold text-center mb-8 dark:text-black">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors text-black md:py-8">
+            <div className="max-w-6xl mx-auto px-2 md:px-4 flex-grow">
+                <h1 className="text-2xl md:text-3xl mb-4 md:mb-8">
                     <img
                         src="/textdiff-logo.svg"
                         alt="TextDiff Logo"
@@ -89,7 +89,7 @@ export default function Home() {
                     onDarkModeChange={setDarkMode}
                 />
 
-                <div className="grid grid-cols-2 gap-8 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-4 md:mb-8">
                     <div>
                         <FileUpload
                             onFileSelect={handleFileSelect}
@@ -142,17 +142,17 @@ export default function Home() {
 
                 {(leftText || rightText) && (
                     <div>
-                        <div className="flex justify-end mb-8 space-x-4">
+                        <div className="flex flex-col sm:flex-row justify-center sm:justify-end mb-4 space-y-2 sm:space-y-0 sm:space-x-4">
                             <button
                                 onClick={updateDiff}
-                                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+                                className="w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
                             >
                                 <Eye className="w-4 h-4 inline-block mr-2" />
                                 See Diff
                             </button>
                             <button
                                 onClick={handleDownload}
-                                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700"
+                                className="w-full sm:w-auto px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700"
                             >
                                 <Download className="w-4 h-4 inline-block mr-2" />
                                 Download Diff
