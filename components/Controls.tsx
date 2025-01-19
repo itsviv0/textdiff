@@ -1,11 +1,5 @@
 import React from "react";
-import {
-    Moon,
-    Sun,
-    SplitSquareVertical,
-    AlignJustify,
-    RefreshCw,
-} from "lucide-react";
+import { Moon, Sun, SplitSquareVertical, RefreshCw, Merge } from "lucide-react";
 
 interface ControlsProps {
     viewMode: "split" | "unified";
@@ -46,7 +40,7 @@ export const Controls: React.FC<ControlsProps> = ({
                             : "bg-gray-200 dark:bg-gray-700 dark:text-gray-200"
                     }`}
                 >
-                    <AlignJustify className="w-4 h-4 inline-block mr-1 sm:mr-2" />
+                    <Merge className="w-4 h-4 inline-block mr-1 sm:mr-2" />
                     Unified View
                 </button>
             </div>
