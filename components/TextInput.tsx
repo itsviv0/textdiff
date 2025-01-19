@@ -15,14 +15,26 @@ export const TextInput: React.FC<TextInputProps> = ({
     onClear,
 }) => {
     const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState("");
 
     const handleCopy = async () => {
+        if (!value.trim()) {
+            setToastMessage("Nothing to copy!");
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 2000);
+            return;
+        }
+
         try {
             await navigator.clipboard.writeText(value);
+            setToastMessage("Copied to clipboard!");
             setShowToast(true);
             setTimeout(() => setShowToast(false), 2000);
         } catch (err) {
             console.error("Failed to copy text:", err);
+            setToastMessage("Failed to copy text");
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 2000);
         }
     };
 
@@ -42,8 +54,16 @@ export const TextInput: React.FC<TextInputProps> = ({
     return (
         <div className="flex flex-col h-full relative">
             {showToast && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full mt--2 px-4 py-2 bg-gray-800 text-white rounded-lg text-sm shadow-lg transition-opacity duration-200 z-50">
-                    Copied to clipboard!
+                <div
+                    className={`absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full mt--2 px-4 py-2 rounded-lg text-sm shadow-lg transition-opacity duration-200 z-50 ${
+                        toastMessage === "Nothing to copy!"
+                            ? "bg-yellow-500 text-white"
+                            : toastMessage === "Failed to copy text"
+                              ? "bg-red-500 text-white"
+                              : "bg-gray-800 text-white"
+                    }`}
+                >
+                    {toastMessage}
                 </div>
             )}
             <div className="flex justify-between items-center mb-2">
