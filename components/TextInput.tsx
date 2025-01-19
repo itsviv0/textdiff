@@ -21,9 +21,9 @@ export const TextInput: React.FC<TextInputProps> = ({
     const renderLineNumbers = () => {
         const lines = value.split("\n").length;
         return (
-            <div className="select-none text-gray-500 pr-2 text-right border-r border-gray-300 mr-2 pt-2">
+            <div className="select-none text-gray-500 pr-1 sm:pr-2 text-right border-r border-gray-300 mr-1 sm:mr-2 pt-2">
                 {Array.from({ length: lines }, (_, i) => (
-                    <div key={i + 1} className="h-6 text-sm">
+                    <div key={i + 1} className="h-5 sm:h-6 text-xs sm:text-sm">
                         {i + 1}
                     </div>
                 ))}
@@ -34,8 +34,10 @@ export const TextInput: React.FC<TextInputProps> = ({
     return (
         <div className="flex flex-col h-full">
             <div className="flex justify-between items-center mb-2">
-                <h3 className="font-medium dark:text-gray-200">{label}</h3>
-                <div className="space-x-2">
+                <h3 className="font-medium text-sm sm:text-base dark:text-gray-200">
+                    {label}
+                </h3>
+                <div className="space-x-1 sm:space-x-2">
                     <button
                         onClick={handleCopy}
                         className="p-1 hover:bg-gray-200 rounded dark:hover:bg-gray-700 dark:text-gray-200"
@@ -58,7 +60,7 @@ export const TextInput: React.FC<TextInputProps> = ({
                     <textarea
                         value={value}
                         onChange={(e) => onChange(e.target.value)}
-                        className="flex-1 pt-2 pr-2 font-mono text-sm resize-none focus:outline-none dark:bg-gray-800 dark:text-gray-200 leading-6"
+                        className="flex-1 pt-2 pr-2 font-mono text-xs sm:text-sm resize-none focus:outline-none dark:bg-gray-800 dark:text-gray-200 leading-5 sm:leading-6"
                         placeholder="Paste or type your text here..."
                     />
                 </div>

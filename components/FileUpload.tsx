@@ -42,7 +42,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             const file = files[0];
             const text = await file.text();
             onFileSelect(text, side);
-            // Reset the input value to allow the same file to be selected again
             if (fileInputRef.current) {
                 fileInputRef.current.value = "";
             }
@@ -51,7 +50,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 
     return (
         <div
-            className={`border-2 border-dashed rounded-lg p-8 text-center ${
+            className={`border-2 border-dashed rounded-lg p-4 sm:p-8 text-center ${
                 isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300"
             }`}
             onDragEnter={handleDrag}
@@ -59,10 +58,12 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             onDragOver={handleDrag}
             onDrop={handleDrop}
         >
-            <Upload className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-            <p className="text-gray-600 mb-2">Drag and drop a file here, or</p>
-            <label className="inline-block">
-                <span className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-600">
+            <Upload className="w-8 h-8 sm:w-12 sm:h-12 mx-auto text-gray-400 mb-2 sm:mb-4" />
+            <p className="text-gray-600 mb-2 text-sm sm:text-base">
+                Drag and drop a file here, or
+            </p>
+            <label className="inline-block mt-2 sm:mt-2">
+                <span className="bg-blue-500 text-white px-3 sm:px-4 py-2 rounded cursor-pointer hover:bg-blue-600 text-sm sm:text-base">
                     Browse Files
                 </span>
                 <input
