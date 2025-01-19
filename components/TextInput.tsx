@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Copy, Trash2 } from "lucide-react";
 
 interface TextInputProps {
@@ -14,8 +14,16 @@ export const TextInput: React.FC<TextInputProps> = ({
     label,
     onClear,
 }) => {
-    const handleCopy = () => {
-        navigator.clipboard.writeText(value);
+    const [showToast, setShowToast] = useState(false);
+
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(value);
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 2000);
+        } catch (err) {
+            console.error("Failed to copy text:", err);
+        }
     };
 
     const renderLineNumbers = () => {
@@ -32,7 +40,12 @@ export const TextInput: React.FC<TextInputProps> = ({
     };
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full relative">
+            {showToast && (
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full mt--2 px-4 py-2 bg-gray-800 text-white rounded-lg text-sm shadow-lg transition-opacity duration-200 z-50">
+                    Copied to clipboard!
+                </div>
+            )}
             <div className="flex justify-between items-center mb-2">
                 <h3 className="font-medium text-lg sm:text-base dark:text-gray-200">
                     {label}
