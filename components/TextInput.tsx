@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Copy, Trash2 } from "lucide-react";
 
 interface TextInputProps {
@@ -14,8 +14,28 @@ export const TextInput: React.FC<TextInputProps> = ({
     label,
     onClear,
 }) => {
-    const handleCopy = () => {
-        navigator.clipboard.writeText(value);
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState("");
+
+    const handleCopy = async () => {
+        if (!value.trim()) {
+            setToastMessage("Nothing to copy!");
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 2000);
+            return;
+        }
+
+        try {
+            await navigator.clipboard.writeText(value);
+            setToastMessage("Copied to clipboard!");
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 2000);
+        } catch (err) {
+            console.error("Failed to copy text:", err);
+            setToastMessage("Failed to copy text");
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 2000);
+        }
     };
 
     const renderLineNumbers = () => {
@@ -32,9 +52,22 @@ export const TextInput: React.FC<TextInputProps> = ({
     };
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full relative">
+            {showToast && (
+                <div
+                    className={`absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full mt--2 px-4 py-2 rounded-lg text-sm shadow-lg transition-opacity duration-200 z-50 ${
+                        toastMessage === "Nothing to copy!"
+                            ? "bg-yellow-500 text-white"
+                            : toastMessage === "Failed to copy text"
+                              ? "bg-red-500 text-white"
+                              : "bg-gray-800 text-white"
+                    }`}
+                >
+                    {toastMessage}
+                </div>
+            )}
             <div className="flex justify-between items-center mb-2">
-                <h3 className="font-medium text-sm sm:text-base dark:text-gray-200">
+                <h3 className="font-medium text-lg sm:text-base dark:text-gray-200">
                     {label}
                 </h3>
                 <div className="space-x-1 sm:space-x-2">
@@ -43,14 +76,14 @@ export const TextInput: React.FC<TextInputProps> = ({
                         className="p-1 hover:bg-gray-200 rounded dark:hover:bg-gray-700 dark:text-gray-200"
                         title="Copy"
                     >
-                        <Copy className="w-4 h-4" />
+                        <Copy className="w-10 sm:w-4" />
                     </button>
                     <button
                         onClick={onClear}
                         className="p-1 hover:bg-gray-200 rounded dark:hover:bg-gray-700 dark:text-gray-200"
                         title="Clear"
                     >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-10 sm:w-4" />
                     </button>
                 </div>
             </div>
