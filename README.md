@@ -24,7 +24,7 @@ A app that compares two versions of a document to highlight differences and iden
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/textdiff.git
+   git clone https://github.com/itsviv0/textdiff.git
    ```
 
 2. Use the correct Node.js version (nvm has to be installed for this step):
